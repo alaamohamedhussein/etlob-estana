@@ -13,7 +13,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+         view()->composer('*', function ($view) 
+    {
+        $view->with('user', \Session::get('user') );    
+    }); 
     }
 
     /**

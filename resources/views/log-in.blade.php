@@ -54,6 +54,7 @@
                                 </button>
 
                                 <a class="btn btn-link" href="{{ url('/reset') }}">Forgot Your Password?</a>
+                                <a class="btn btn-link" href="{{ url('/redirect') }}">FaceBook</a>
                             </div>
                         </div>
                     </form>

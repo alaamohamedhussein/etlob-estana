@@ -53,13 +53,14 @@
                 <!-- Right Side Of Navbar -->
                 <ul class="nav navbar-nav navbar-right">
                     <!-- Authentication Links -->
-                    @if (Auth::guest())
+<!--                      {{$user['email']}}-->
+                    @if (!$user['email'])
                         <li><a href="{{ url('/new') }}">Login</a></li>
                         <li><a href="{{ url('/create') }}">Register</a></li>
                     @else
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                                {{ Auth::user()->name }} <span class="caret"></span>
+                                {{ $user['email'] }} <span class="caret"></span>
                             </a>
 
                             <ul class="dropdown-menu" role="menu">
