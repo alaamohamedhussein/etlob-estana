@@ -9,7 +9,7 @@
         </div>
         <div class="row">
             <div class="col-lg-12">
-                <form name="sentMessage" id="contactForm" action="{{ url('/new') }}" method="post" novalidate>
+                <form name="sentMessage" id="contactForm" action="{{ url('/profile') }}" method="post" novalidate>
                     {!! csrf_field() !!}
 
                     <div class="row">

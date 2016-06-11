@@ -52,15 +52,14 @@
 
                 <!-- Right Side Of Navbar -->
                 <ul class="nav navbar-nav navbar-right">
-                    <!-- Authentication Links -->
-<!--                      {{$user['email']}}-->
-                    @if (!$user['email'])
+                
+                    @if (!$user['userEmail'])
                         <li><a href="{{ url('/new') }}">Login</a></li>
                         <li><a href="{{ url('/create') }}">Register</a></li>
                     @else
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                                {{ $user['email'] }} <span class="caret"></span>
+                                {{$user['userEmail'] }} <span class="caret"></span>
                             </a>
 
                             <ul class="dropdown-menu" role="menu">

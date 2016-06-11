@@ -7,7 +7,14 @@ and open the template in the editor.
     Created on : May 29, 2016, 8:43:24 AM
     Author     : hassan
 */
-
+@font-face {
+    font-family: NotoKufiArabic light;
+    src: url(../fonts/NotoKufiArabic-Regular.ttf);
+}
+@font-face {
+    font-family: NotoKufiArabic bold;
+    src: url(../fonts/NotoKufiArabic-Bold.ttf);
+}
 .remove_underlines a:link {
     text-decoration: none;
 }
@@ -64,4 +71,127 @@ and open the template in the editor.
 .myRow
 {
     background-color: #fff;
+}
+
+/*Author: Rotana Rezk*/
+.controller-btn{
+   padding: 5px 10px 5px 10px;
+    background-color: transparent;
+    color: white;
+    border: 1px solid white;
+    border-radius: 4px;
+}
+.controller-btn:hover{
+        border: 1px solid white;
+        background-color: white;
+        color: #009688;
+}
+.navbar-default{
+    background-color: #009688;
+    padding: 10px 20px;
+}
+.navbar-brand{
+padding-left: 0px;
+}
+.navbar-default .nav li a{
+font-family: NotoKufiArabic light;
+font-size: 14px;
+}
+
+.signing-list{
+    display: inline-block;
+    padding-top: 10px;
+}
+.signing-list .controller-btn{
+   margin-right: 3px;
+}
+header {
+    background-image: url(../img/crafts.jpg);
+}
+.intro-text{
+color: white;
+}
+header .intro-text .intro-lead-in{
+    font-family: NotoKufiArabic bold;
+font-size: 50px;
+}
+header .intro-text .intro-heading{
+    font-family: NotoKufiArabic bold;
+font-size: 50px;  
+}
+section h2.section-heading{
+      font-family: NotoKufiArabic light;
+font-size: 40px;
+}
+.navbar-default .navbar-brand{
+  font-family: NotoKufiArabic light;
+font-size: 30px;  
+}
+/*#portfolio *{
+   font-family: NotoKufiArabic light;
+font-size: 20px; 
+}
+#portfolio .portfolio-item .portfolio-caption p{
+    font-family: NotoKufiArabic light;
+font-size: 18px;
+}*/
+#about {background-color: #fff;}
+#services {background-color: #f5f5f5;}
+#portfolio {background-color: #fff;}
+#team {background-color: #f5f5f5;}
+@media (min-width: 768px){
+.navbar-default.navbar-shrink {
+    background-color: #009688;
+    padding: 10px 20px;
+}
+}
+@media screen and (max-width: 850px) {
+.navbar-default{
+    padding: 10px 10px;
+}
+    .nav>li>a{
+        padding: 10px 10px;
+    }
+    .navbar-right{
+       padding-top: 5px;
+            padding-right: 5px;
+    }         
+}
+.modal .modal-content {
+    text-align: center;
+    padding: 20px 40px 20px 40px;
+}
+.modal .modal-content h3 {
+    color: #000;
+    margin-bottom: 20px;
+}
+.modal .modal-content input select {
+    margin-bottom: 20px;
+    width: 100%;
+    height: 40px;
+    border-radius: 3px;
+    box-shadow: none;
+    padding-left: 2px;
+}
+.modal .modal-content .login-btn {
+    font-size: 16px;
+    color: white;
+    background-color: #000;
+    padding: 5px 10px 5px 10px;
+    border: solid 1px #000;
+}
+.modal .modal-content .login-btn:hover {
+    background-color: transparent;
+    border: solid 1px #000;
+    color: #3000ff;
+}
+.panel-title {
+    font-family: NotoKufiArabic bold;
+}
+.panel-footer {
+    padding: 10px 15px;
+    background-color: #f5f5f5;
+    border-top: 1px solid #ddd;
+    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
 }

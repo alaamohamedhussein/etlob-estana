@@ -4,11 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests;
 
-use Illuminate\Http\Request;
+//use Illuminate\Http\Request;
 use App\Articale;
-//use Request;
+use Request;
 use Socialite;
 use Auth;
+use View;
 use Validator;
 use App\User;
 use App\SocialAccountService;
@@ -32,21 +33,37 @@ class UsersCntroller extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index() {
+        
         return view('home');
     }
 
     public function showLogin() {
+       
         return view('log-in');
     }
 
     public function doLogin() {
+        if(Request::ajax()) {
+      $data = Input::all();
+      print_r($data);die;
+    }
+//        dd("test");
         // create our user data for the authentication
-        $userdata = array(
+    $userdata = array(
             'email' => Input::get('email'),
             'password' => Input::get('password')
         );
+     $rules=array(
+
+            'email' => 'required|email|max:255',
+            'password' => 'required|min:6',
+            
+        );
+        $validator = validator::make($userdata,$rules);
+        if ($validator->fails())
+            { return  Redirect::to('/new')->withInput()->withErrors($validator->messages());}
         $client = new Client();
-        $res = $client->request('POST', 'http://172.16.2.13:8087/itiProject/rest/authentication/login',[
+        $res = $client->request('POST', 'http://localhost:8084/itiProject/rest/authentication/login',[
         'form_params' => [
             'email' => $userdata['email'],
             'pass' => $userdata['password'],
@@ -58,30 +75,14 @@ class UsersCntroller extends Controller {
     
         // attempt to do the login
         if ($string['message']==true) {
-
-            // validation successful!
-            // redirect them to the secure section or whatever
-            // return Redirect::to('secure');
-            // for now we'll just echo success (even though echoing in a controller is bad)
-//            Auth::login($userdata);
-//            Auth::login($userdata['email'], $remember = true);
-//            Auth::loginUsingId($userdata->getAuthIdentifier());
-//            auth()->user($userdata);
-//            Auth::user($userdata);
-//            dd(Auth::user());
-//            print_r($userdata['email']);
-//            Auth::attempt($userdata, true);
-//            Session::put('session', $userdata['email']);
-//            dd( Session::get('session'));
-            Session::put('user',$userdata);
-//            dd(Session::get('user')['email']);
-       return Redirect::to('/');
-            
-           
-        } else {
+            Session::put('user',$string['user']); 
+            $userId=Session::get('user')['userId'];
+            return Redirect::to('userProfile/'.$userId);
+//            return view('_template.userProfile',compact('userData'));      
+           }else {
 
             // validation not successful, send back to form 
-            return Redirect::to('new');
+            return Redirect::to('/');
         }
 //        if (Auth::attempt($userdata, true)) {
 //
@@ -96,23 +97,52 @@ class UsersCntroller extends Controller {
 //            return Redirect::to('new');
 //        }
     }
-
+public function profile($id) {
+    $client = new Client();
+    
+    $res = $client->request('GET', 'http://localhost:8084/itiProject/rest/user/getUser?userId='.$id);
+    $result = $res->getBody();
+    $string = json_decode($result, true);
+    $userData=$string['user']; 
+    return view('_template.userProfile',compact('userData')); 
+}
+public function portofolioProfile($id) {
+    $client = new Client();
+    
+    $res = $client->request('POST', 'http://localhost:8084/itiProject/rest/portofolio/getUser',[
+        'form_params' => [
+            'portId' => $id,
+        ]
+    ]);
+    $result = $res->getBody();
+    $string = json_decode($result, true);
+    $userData=$string['user']; 
+    return view('_template.userProfile',compact('userData')); 
+}
     public function create() {
         return view('_template.signup');
     }
 
     public function store() {
-//        $rules = array(
-//            'name' => 'required|unique:users',
-//            'email' => 'required|email|max:255|unique:users',
-//            'password' => 'required|min:6|confirmed',
-//            'password_confirmation' => 'required|same:password'
-//        );
+        $require = array(
+            'name' => 'required|unique:users',
+            'email' => 'required|email|max:255|unique:users',
+            'password' => 'required|min:6|confirmed',
+            'password_confirmation' => 'required|same:password',
+            'gender' => 'required',
+            'city' => 'required',
+            'country' => 'required',
+            'governorate' => 'required',
+            'summery' => 'required|min:50',
+            'title' => 'required',
+            'mobile' => 'required',
+            'phone' => 'required',
+        );
         $rules = array(
             'name' => Input::get('name'),
             'email' => Input::get('email'),
             'password' => Input::get('password'),
-            'gender' => "male",
+            'gender' => Input::get('gender'),
             'street' => Input::get('street'),
             'city' => Input::get('city'),
             'country' => Input::get('country'),
@@ -121,9 +151,16 @@ class UsersCntroller extends Controller {
             'summery' => Input::get('summery'),
             'mobile' => Input::get('mobile'),
             'phone' => Input::get('phone'),
+            'userimage' => Input::get('userimage'),
+            
         );
+         $imgda= file_get_contents ('/home/alaa/Desktop/etlob-estana/public/images/'.$rules['userimage']);
+        $imdata = base64_encode($imgda );
+        $validator = validator::make($rules,$require);
+        if ($validator->fails())
+            { return Redirect::to('/')->withInput()->withErrors($validator->messages());}
          $client = new Client();
-        $res = $client->request('POST', 'http://172.16.2.13:8087/itiProject/rest/authentication/register',[
+        $res = $client->request('POST', 'http://localhost:8084/itiProject/rest/authentication/register',[
         'form_params' => [
             'userName' => $rules['name'],
             'userEmail' => $rules['email'],
@@ -138,13 +175,15 @@ class UsersCntroller extends Controller {
             'mobiles' => $rules['mobile'],
             'phones' => $rules['phone'],
             'skill' => "1,2,3",
-            'userImage' => "image",
+            'name' => $rules['userimage'],
+            'content' => $imdata,
         ]
     ]);
 
         $result = $res->getBody();
         $string = json_decode($result,true);
-        dd($string);
+        return Redirect::to('/userprofile');
+//        dd($string);
 //        $validator = validator::make(Input::all(), $rules);
 //        if ($validator->fails()) {
 //            
@@ -160,7 +199,7 @@ class UsersCntroller extends Controller {
 
     public function logout() {
         Session::forget('user'); // log the user out of our application
-        return Redirect::to('/new'); // redirect the user to the login screen
+        return Redirect::to('/'); // redirect the user to the login screen
     }
 
     public function showIndex() {
