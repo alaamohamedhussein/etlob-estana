@@ -10,8 +10,8 @@
 
 @include('_template.about_section')
 
-@include('_template.signup')
-@include('_template.login')
-@include('_template.contact_section')
+
 
 @include('_include.footer')
+@include('_template.signup')
+@include('_template.login')

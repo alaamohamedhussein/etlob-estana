@@ -8,16 +8,13 @@
             </div>
         </div>
          <div class="row text-center">
-            @foreach($categories as $category)
-            <div class="col-md-4">
-                        <span class="fa-stack fa-4x">
-                            <i class="fa fa-circle fa-stack-2x text-primary"></i>
-                            <i class="{{$category['imageOfCategoryUrl']}}"></i>
-                        </span>
+            @foreach($categories as $category)    
+               <div class="col-md-4">
+                       <img src="http://localhost:8084/itiProject{{$category['imageOfCategoryUrl']}}" class="img-responsive img-circle" width="350" height="200">
                         <h4 class="service-heading">{{$category['categoryName']}}</h4>
                         <p class="text-muted"></p>
                         <a href="/portofolioUsers/{{$category['categoryId']}}">عن الفئة </a>
-                    </div>
+               </div>
             @endforeach
         </div>
     </div>

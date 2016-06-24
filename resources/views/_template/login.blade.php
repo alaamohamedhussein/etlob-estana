@@ -1,9 +1,9 @@
-@include('_include.header')
+
 <!-- Log In modal -->
         <section id="login" class="modal fade login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <form name="sentMessage" id="contactForm"  novalidate>
+                    <form name="sentMessage" id="contactForm" method="POST" action="{{ url('/profile') }}" novalidate>
                     {!! csrf_field() !!}
                     <h3>Login Now</h3>
                      <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
@@ -28,7 +28,7 @@
                             
                             <div class="col-md-3"><a href="{{ url('/redirect') }}" class="remove_underlines">login with facebook</a></div>
                             
-                            <button  class="form-control" type="button" class="send-btn">Log In</button>
+                            <button  class="form-control" type="submit" class="send-btn">Log In</button>
                     </form>
                 </div>
             </div>
@@ -55,20 +55,20 @@
 //                        console.log(err);
 //                    });
 //                }
-$(document).ready(function(){
-  $('.send-btn').click(function(){            
-    $.ajax({
-      url: '/profile',
-      type: "post",
-      data: { 'email' : $('#email').val(),
-                            'password' : $('#password').val()},
-      success: function(data){
-        alert(data);
-      }
-    });      
-  }); 
-});
+//$(document).ready(function(){
+//  $('.send-btn').click(function(){            
+//    $.ajax({
+//      url: '/profile',
+//      type: "post",
+//      data: { 'email' : $('#email').val(),
+//                            'password' : $('#password').val()},
+//      success: function(data){
+//        alert(data);
+//      }
+//    });      
+//  }); 
+//});
             </script>
-        </section>>
+        </section>
         <!-- Sign Up modal end-->
-@include('_include.footer')
+

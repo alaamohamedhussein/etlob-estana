@@ -36,8 +36,10 @@ Route::get('/logout', 'UsersCntroller@logout');
 Route::get('/redirect', 'UsersCntroller@redirect');
 Route::get('/callback', 'UsersCntroller@callback');
 Route::get('/userProfile/{id}', 'UsersCntroller@profile');
-Route::get('/portofolioProfile/{id}', 'UsersCntroller@portofolioProfile');
 
+Route::get('/portofolioProfile/{id}', 'UsersCntroller@portofolioProfile');
+Route::get('/addPortofolio','UsersCntroller@addPortofolio');
+Route::post('/savePortofolio','UsersCntroller@savePortofolio');
 
 Route::get('/addProject', 'ProjectController@create');
 Route::post('/addProject', 'ProjectController@store');
@@ -46,6 +48,7 @@ Route::get('/ProjectsHired', 'ProjectController@showProjectsHired');
 Route::get('/ProjectsWorked', 'ProjectController@showProjectsWorked');
 Route::get('/ProjectsWorkedDetails/{id}','ProjectController@showProjectsWoredDetails');
 Route::get('/ProjectsHiredDetails/{id}','ProjectController@showProjectsHiredDetails');
+Route::post('/comment','ProjectController@addcomment');
 //        , function () {
 //    return view('projects.askTableDetails');
 //}
@@ -57,6 +60,8 @@ Route::get('/allOffer', function () {
 Route::post('/addOffer', 'OfferController@create');
 Route::post('/saveOffer', 'OfferController@store');
 Route::post('/showOffer', 'OfferController@show');
+Route::post('/OfferAction', 'OfferController@offerAction');
+
 //Route::get('/userProfile', function () {
 //    return view('_template.userProfile');
 //}

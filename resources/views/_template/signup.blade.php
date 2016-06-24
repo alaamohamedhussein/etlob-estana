@@ -5,7 +5,7 @@
                    <form name="sentMessage" id="contactForm" method="Post" action="{{ url('/create') }}" novalidate>
                     {!! csrf_field() !!}
                     <h3>Register Now</h3>
-                   
+                  
                      <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
                                 <input type="text" class="form-control" placeholder="الاسم*" id="name" name="name" required data-validation-required-message="Please enter your name." value="{{ old('name') }}">
                                 @if ($errors->has('name'))
@@ -46,10 +46,18 @@
                     
                     <select class="form-control" id="gender" name="gender" placeholder="النوع*">
                         
-                        <option>ذكر</option>
-                        <option>اثني</option>
+                        <option value="false">ذكر</option>
+                        <option value="true">اثني</option>
                     </select>
                      </div>
+                    <div class="form-group">
+                        <select class="form-control" id="gender" name="bussinessType" placeholder="نوع التسجيل*">
+
+                            <option value="work">مورد</option>
+                            <option value="hire">زبون</option>
+                            <option value="both">كلا منهما</option>
+                        </select>
+                    </div>
                     <div class="form-group">
                             <input type="text" class="form-control" placeholder="رقم الشارع" id="street" name="street" required data-validation-required-message="Please enter street.">
                             <p class="help-block text-danger"></p>
@@ -70,6 +78,14 @@
                             <input type="text" class="form-control" placeholder="عنوانك الوظيفي*" id="country" name="title" required data-validation-required-message="Please enter title.">
                             <p class="help-block text-danger"></p>
                         </div>
+                     <div class="form-group">
+                    
+                    <select class="form-control" id="gender" name="skill" placeholder="مهاراتك *">
+                         @foreach($skills as $skill)
+                         <option value="{{$skill['skillId']}},">{{$skill['skillName']}},</option>
+                        @endforeach
+                    </select>
+                     </div>
                     <div class="form-group">
                             <input type="text" class="form-control" placeholder="موبايل *" id="country" name="mobile" required data-validation-required-message="Please enter mobile.">
                             <p class="help-block text-danger"></p>

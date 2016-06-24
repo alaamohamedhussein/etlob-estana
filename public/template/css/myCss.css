@@ -195,3 +195,9 @@ font-size: 18px;
     border-bottom-right-radius: 3px;
     border-bottom-left-radius: 3px;
 }
+.panel-info {
+    border-color: #4ac1af;
+}
+.noresize {
+  resize: none; 
+}

@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests;
-
+use Illuminate\Support\Facades\Request;
+//use Illuminate\Support\Facades\Input;
 //use Illuminate\Http\Request;
 use App\Articale;
-use Request;
+//use Request;
 use Socialite;
 use Auth;
 use View;
@@ -43,10 +44,7 @@ class UsersCntroller extends Controller {
     }
 
     public function doLogin() {
-        if(Request::ajax()) {
-      $data = Input::all();
-      print_r($data);die;
-    }
+      
 //        dd("test");
         // create our user data for the authentication
     $userdata = array(
@@ -63,7 +61,7 @@ class UsersCntroller extends Controller {
         if ($validator->fails())
             { return  Redirect::to('/new')->withInput()->withErrors($validator->messages());}
         $client = new Client();
-        $res = $client->request('POST', 'http://localhost:8084/itiProject/rest/authentication/login',[
+        $res = $client->request('POST', env('MY_GLOBAL_VAR').'/authentication/login',[
         'form_params' => [
             'email' => $userdata['email'],
             'pass' => $userdata['password'],
@@ -72,9 +70,10 @@ class UsersCntroller extends Controller {
 
         $result = $res->getBody();
         $string = json_decode($result,true);
-    
+//        dd($string['message']);
         // attempt to do the login
-        if ($string['message']==true) {
+        if ($string['message']=="تم تسجيل الدخول ") {
+//            dd($string);
             Session::put('user',$string['user']); 
             $userId=Session::get('user')['userId'];
             return Redirect::to('userProfile/'.$userId);
@@ -100,16 +99,17 @@ class UsersCntroller extends Controller {
 public function profile($id) {
     $client = new Client();
     
-    $res = $client->request('GET', 'http://localhost:8084/itiProject/rest/user/getUser?userId='.$id);
+    $res = $client->request('GET', env('MY_GLOBAL_VAR').'/user/getUser?uId='.$id);
     $result = $res->getBody();
     $string = json_decode($result, true);
     $userData=$string['user']; 
+//    dd($userData);
     return view('_template.userProfile',compact('userData')); 
 }
 public function portofolioProfile($id) {
     $client = new Client();
     
-    $res = $client->request('POST', 'http://localhost:8084/itiProject/rest/portofolio/getUser',[
+    $res = $client->request('POST', env('MY_GLOBAL_VAR').'/portofolio/getUser',[
         'form_params' => [
             'portId' => $id,
         ]
@@ -117,6 +117,7 @@ public function portofolioProfile($id) {
     $result = $res->getBody();
     $string = json_decode($result, true);
     $userData=$string['user']; 
+//    dd($userData);
     return view('_template.userProfile',compact('userData')); 
 }
     public function create() {
@@ -152,15 +153,18 @@ public function portofolioProfile($id) {
             'mobile' => Input::get('mobile'),
             'phone' => Input::get('phone'),
             'userimage' => Input::get('userimage'),
-            
+            'skill' => Input::get('skill'),
+            'bussinessType' => Input::get('bussinessType'),
         );
+//        dd($rules);
          $imgda= file_get_contents ('/home/alaa/Desktop/etlob-estana/public/images/'.$rules['userimage']);
         $imdata = base64_encode($imgda );
-        $validator = validator::make($rules,$require);
-        if ($validator->fails())
-            { return Redirect::to('/')->withInput()->withErrors($validator->messages());}
+//        dd($imdata);
+//        $validator = validator::make($rules,$require);
+//        if ($validator->fails())
+//            { return Redirect::to('/')->withInput()->withErrors($validator->messages());}
          $client = new Client();
-        $res = $client->request('POST', 'http://localhost:8084/itiProject/rest/authentication/register',[
+        $res = $client->request('POST', env('MY_GLOBAL_VAR').'/authentication/register',[
         'form_params' => [
             'userName' => $rules['name'],
             'userEmail' => $rules['email'],
@@ -174,16 +178,16 @@ public function portofolioProfile($id) {
             'summery' => $rules['summery'],
             'mobiles' => $rules['mobile'],
             'phones' => $rules['phone'],
-            'skill' => "1,2,3",
+            'skill' => $rules['skill'],
             'name' => $rules['userimage'],
             'content' => $imdata,
+            'bussinessType' => $rules['bussinessType'],
         ]
     ]);
 
+            
         $result = $res->getBody();
         $string = json_decode($result,true);
-        return Redirect::to('/userprofile');
-//        dd($string);
 //        $validator = validator::make(Input::all(), $rules);
 //        if ($validator->fails()) {
 //            
@@ -194,10 +198,86 @@ public function portofolioProfile($id) {
 //            'email' => Input::get('email'),
 //            'password' => \bcrypt(Input::get('password')),
 //        ));
-//        return Redirect::to('/');
+        if ($string['output']=="تم  تسجيل الحساب بنجاح") {
+           $res = $client->request('POST', env('MY_GLOBAL_VAR').'/authentication/login',[
+        'form_params' => [
+            'email' =>  $rules['email'],
+            'pass' => $rules['password'],
+        ]
+    ]);
+
+        $result = $res->getBody();
+        $string = json_decode($result,true);
+//        dd($string['message']);
+        // attempt to do the login
+        if ($string['message']=="تم تسجيل الدخول ") {
+            Session::put('user',$string['user']); 
+            $userId=Session::get('user')['userId'];
+            return Redirect::to('userProfile/'.$userId);
+//            return view('_template.userProfile',compact('userData'));      
+           }else {
+
+            // validation not successful, send back to form 
+            return Redirect::to('/');
+        }}else {
+
+            // validation not successful, send back to form 
+            return Redirect::to('/');
+        }
+//        return redirect()->back();
     }
 
-    public function logout() {
+    public function addPortofolio(){
+        $client = new Client();
+        $res2 = $client->request('GET', env('MY_GLOBAL_VAR').'/categoryURL/getCategories');
+        $result2 = $res2->getBody();
+        $string2 = json_decode($result2, true);
+        $categories = $string2['categories'];
+        return view('_template.addPortofolio',compact('categories'));
+    }
+    
+    public function savePortofolio(){
+        $rules = ['category' => Input::get('category'),
+            'description' => Input::get('description'),
+            'portofolioImage' => Request::file('pImage'),
+            
+            ];
+        $userId=Session::get('user')['userId'];
+//        dd($rules['portofolioImage']);
+////        dd($rules);  Request::file
+        $file =($rules['portofolioImage']);
+//        $file=Request::input('portofolioImage');
+//        dd($rules['portofolioImage']);
+        $extension=$file->getClientOriginalExtension();
+        $image_name = $file->getFileName().'.'.$extension ;
+        $destinationPath = public_path().'/images/';
+//        dd($image_name);
+////        $filename        = Sentry::getUser()->username. '.jpg';
+        $uploadSuccess  = $file->move($destinationPath,$image_name);
+//        dd($uploadSuccess);
+        if($uploadSuccess!= "false"){
+         $imgda= file_get_contents ($destinationPath.$image_name);
+        $imdata = base64_encode($imgda);
+         $client = new Client();
+        $res = $client->request('POST', env('MY_GLOBAL_VAR').'/portofolio/insertPortofolio',[
+        'form_params' => [
+            'cId' => $rules['category'],
+            'description' => $rules['description'],
+            'name' => $image_name,
+            'content' => $imdata,
+            'uId' => $userId,
+        ]
+    ]);       
+        $result = $res->getBody();
+        $string = json_decode($result,true);
+//        dd($string);
+        if ($string['satatus']=="true") {
+            return Redirect::to('userProfile/'.$userId);
+        }
+    }else{ return Redirect::to('/');}}
+    
+
+        public function logout() {
         Session::forget('user'); // log the user out of our application
         return Redirect::to('/'); // redirect the user to the login screen
     }

@@ -11,7 +11,8 @@
             @foreach($suppliers as $users)
             <div class="col-sm-4">
                 <div class="team-member">
-                    <img src="template/img/team/1.jpg" class="img-responsive img-circle" alt="">
+                   
+                    <img src="{{"http://localhost:8084/itiProject".$users['userImageUrl']}}" class="img-responsive img-circle" alt="">
                     <h4>{{$users['userName']}}</h4>
                     <h6>{{$users['professinalTiltle']}}</h6>
                     <p class="text-muted">{{$users['summery']}}</p>

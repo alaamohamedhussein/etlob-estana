@@ -62,7 +62,7 @@ class OfferController extends Controller
          $userId=Session::get('user')['userId'];
 //         dd($rules);
          $client = new Client();
-        $res = $client->request('POST', 'http://localhost:8084/itiProject/rest/porposa/insertPorposer',[
+        $res = $client->request('POST', env('MY_GLOBAL_VAR').'/porposa/insertPorposer',[
         'form_params' => [
             'price' => $rules['price'],
             'startDate' => $rules['startDate'],
@@ -77,11 +77,11 @@ class OfferController extends Controller
         $result = $res->getBody();
         $string = json_decode($result,true);
        
-        dd($string);
+//        dd($string);
          if ($string['output']=="tureInsert") {
-           
-//            return Redirect::to('userProfile/'.$userId);
-            return view('projects.allOffer', compact('string'));   
+           return redirect()->back();
+//            return Redirect::to('/showOffer');
+//            return view('projects.allOffer', compact('string'));   
         } else {
 
             // validation not successful, send back to form 
@@ -101,16 +101,17 @@ class OfferController extends Controller
          $rules = array(
              'pid' => Input::get('pid'));
         $client = new Client();
-        $res = $client->request('GET', 'http://localhost:8084/itiProject/rest/porposa/getPorposals?pId='.$rules['pid']);
+        $res = $client->request('GET', env('MY_GLOBAL_VAR').'/porposa/getPorposals?pId='.$rules['pid']);
 
         $result = $res->getBody();
         $string = json_decode($result,true);
        
-        dd($string);
+//        dd($string);
          if ($string['satatus']=="true") {
            $allOffer= $string['projectPorposa'];
+           $pid=$rules['pid'];
 //            return Redirect::to('userProfile/'.$userId);
-    return view('projects.allOffer', compact('allOffer'));   
+    return view('projects.allOffer', compact('allOffer','pid'));   
         } else {
 
             // validation not successful, send back to form 
@@ -124,9 +125,26 @@ class OfferController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function offerAction()
     {
         //
+        $rules = array(
+             'pid' => Input::get('pid'),
+               'porposlid'=> Input::get('porposlid'));
+        $client = new Client();
+        $res = $client->request('GET', env('MY_GLOBAL_VAR').'/status/updateStatus?porposa='.$rules['porposlid'].'&project='.$rules['pid']);
+
+        $result = $res->getBody();
+        $string = json_decode($result,true);
+       
+//        dd($string);
+         if ($string['satatus']=="true") {
+            return Redirect::to('/ProjectsWorkedDetails/'.$rules['pid']);
+           } else {
+
+            // validation not successful, send back to form 
+            return Redirect::to('/');
+        }
     }
 
     /**

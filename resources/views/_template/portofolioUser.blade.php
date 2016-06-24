@@ -10,9 +10,9 @@
                 <div class="row">
                     @foreach($portofolio as $project)
                     <div class="col-md-4 col-sm-6 portfolio-item">
-                        
-                      <img src="/template/img/portfolio/golden.png" class="img-responsive" alt="">
-                        
+                        <?php if( isset($project['portofolioimageses']) && !empty($project['portofolioimageses'])):?>
+                      <img src="{{"http://localhost:8084/itiProject".$project['portofolioimageses'][0]['portfolioImageUrl']}}" class="img-responsive" alt="">
+                        <?php  endif;?>
                         <div class="portfolio-caption">
                             
                             <h4>السعر: </h4>

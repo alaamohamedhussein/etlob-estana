@@ -32,10 +32,10 @@
                         <div class="timeline-panel">
                             <div class="timeline-heading">
                                 <br><br>
-                                <h4 class="subheading">{{$up['projectsforusers']['projectName']}}</h4>
+                                <h4 class="subheading">اسم المشروع :<br>{{$up['projectsforusers']['projectName']}}</h4>
                             </div>
                             <div class="timeline-body">
-                                <p class="text-muted">{{$up['projectsforusers']['projectDescription']}} </p>
+                                <p class="text-muted">تفاصيل عن المشروع:<br>{{$up['projectsforusers']['projectDescription']}} </p>
                             </div>
                         </div>
                     </li>

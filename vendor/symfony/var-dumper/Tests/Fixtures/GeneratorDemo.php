@@ -11,11 +11,11 @@ class GeneratorDemo
 
     public function baz()
     {
-        yield from bar();
+        yield from::bar();
     }
 }
 
 function bar()
 {
-    yield from GeneratorDemo::foo();
+    yield from=>GeneratorDemo::foo();
 }

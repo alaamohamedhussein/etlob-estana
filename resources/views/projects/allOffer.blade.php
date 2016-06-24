@@ -18,9 +18,20 @@
                                     <p><span class="glyphicon glyphicon-time"></span>{{$wp['startDatePor']}}</p>
                                     <p>تاريخ الانتهاء </p>
                                     <p><span class="glyphicon glyphicon-time"></span>{{$wp['deadLinePor']}}</p>
+                          <div>
+                               <form action="/OfferAction" method="post">
+                                         {!! csrf_field() !!}
+                                    <input type="hidden" name="pid" value="{{$pid}}">
+                                    <input type="hidden" name="porposlid" value="{{$wp['porpId']}}">
+                                <button type="submit" class="btn btn-success">قبول العرض</button> 
+                                <button type="submit" class="btn btn-danger">رفض العرض</button>
+                              </form> 
+                          </div>
                             </div>
+                            
                             <br class="clearBoth" />
                             <div><a href="#">First link</a></div>
+                            
                         </li>
                         @endforeach
                     </ul>

@@ -22,17 +22,17 @@
                       </div>
                       </div>
                       
-                            <img class="img-circle img-responsive" src="template/img/about/1.jpg" alt="">
+                            <img class="img-circle img-responsive" src="{{"http://localhost:8084/itiProject".$wp['projectsimageses'][0]['imageUrl']}}" alt="">
                
                      </a>
                         </div>
                         <div class="timeline-panel">
                             <div class="timeline-heading">
                                 <br><br>
-                                <h4 class="subheading">{{$wp['projectName']}}</h4>
+                                <h4 class="subheading">اسم المشروع :<br>{{$wp['projectName']}}</h4>
                             </div>
                             <div class="timeline-body">
-                                <p class="text-muted">{{$wp['projectDescription']}} </p>
+                                <p class="text-muted">تفاصيل عن المشروع:<br>{{$wp['projectDescription']}} </p>
                             </div>
                         </div>
                     </li>

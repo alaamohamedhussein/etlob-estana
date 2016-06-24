@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 
 use Illuminate\Support\Facades\Session;
+env('MY_GLOBAL_VAR');
 class HomeController extends Controller {
 
     /**
@@ -55,27 +56,38 @@ class HomeController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function show() {
+//        dd(env('MY_GLOBAL_VAR'));
         $client = new Client();
-//        http://172.16.2.13:8087/itiProject/rest/categoryURL/getCategories
-        $res = $client->request('GET', 'http://localhost:8084/itiProject/rest/project/getLastProject');
-        $result = $res->getBody();
-        $string = json_decode($result, true);
-        $wantedProjects = $string['projects'];
-        $res = $client->request('GET', 'http://localhost:8084/itiProject/rest/categoryURL/getCategories');
-        $result = $res->getBody();
-        $string = json_decode($result, true);
-        $categories = $string['categories'];
-        $res = $client->request('GET', 'http://localhost:8084/itiProject/rest/project/getBestProject');
-        $result = $res->getBody();
-        $string = json_decode($result, true);
-        $projects = $string['bestProjects'];
+
+        $res1 = $client->request('GET', env('MY_GLOBAL_VAR').'/project/getLastProject');
+        $result1 = $res1->getBody();
+        $string1 = json_decode($result1, true);
+        $wantedProjects = $string1['projects'];
+        $res2 = $client->request('GET', env('MY_GLOBAL_VAR').'/categoryURL/getCategories');
+        $result2 = $res2->getBody();
+        $string2 = json_decode($result2, true);
+        $categories = $string2['categories'];
+        $res3 = $client->request('GET', env('MY_GLOBAL_VAR').'/project/getBestProject');
+        $result3 = $res3->getBody();
+        $string3 = json_decode($result3, true);
+                
+        $projects = $string3['bestProjects'];
 //        dd($projects);
-        $res = $client->request('GET', 'http://localhost:8084/itiProject/rest/user/getMaxUser');
-        $result = $res->getBody();
-        $string = json_decode($result, true);
-        $suppliers = $string['users'];
+        $res4 = $client->request('GET', env('MY_GLOBAL_VAR').'/user/getMaxUser');
+        $result4 = $res4->getBody();
+        $string4 = json_decode($result4, true);
+        $suppliers = $string4['users'];
+         $res5 = $client->request('GET', env('MY_GLOBAL_VAR').'/authentication/getSkills');
+        $result5 = $res5->getBody();
+        $string5 = json_decode($result5, true);
+        $skills = $string5['skills'];
 //        dd($projects);
-        return view('_layout.master', compact('wantedProjects','categories','projects','suppliers'));
+        if($wantedProjects&&$categories&&$projects&&$suppliers){
+        return view('_layout.master', compact('wantedProjects','categories','projects','suppliers','skills'));
+         }
+        else
+        {return view('welcome');}
+    
     }
     public function showWantedDetails($id)
     {
@@ -83,7 +95,7 @@ class HomeController extends Controller {
         if (Session::get('user')['userId']!= null){
          $client = new Client();
     
-    $res = $client->request('POST', 'http://localhost:8084/itiProject/rest/project/getproject',[
+    $res = $client->request('POST', env('MY_GLOBAL_VAR').'/project/getproject',[
         'form_params' => [
             'pId' => $id,
         ]
@@ -107,7 +119,7 @@ class HomeController extends Controller {
         if (Session::get('user')['userId']!= null){
          $client = new Client();
     
-    $res = $client->request('POST', 'http://localhost:8084/itiProject/rest/project/getproject',[
+    $res = $client->request('POST', env('MY_GLOBAL_VAR').'/project/getproject',[
         'form_params' => [
             'pId' => $id,
         ]
@@ -117,8 +129,6 @@ class HomeController extends Controller {
     if ($string['satatus']==true) {
     $askedProjects=$string['project']; 
 //    dd($askedProjects);
-    $projectdata=$askedProjects;
-//    dd($projectdata);
     return view('_template.hightProjectDetails',compact('askedProjects'));
         }}
     else
@@ -135,13 +145,16 @@ class HomeController extends Controller {
      */
     public function portofolio($id) {
         $client = new Client();
-        $res = $client->request('GET', 'http://localhost:8084/itiProject/rest/portofolio/getPortofolioRandom?categoryId='.$id.'&footer=6');
+        $res = $client->request('GET', env('MY_GLOBAL_VAR').'/portofolio/getPortofolioRandom?categoryId='.$id.'&footer=6');
         $result = $res->getBody();
         $string = json_decode($result, true);
         $portofolio = $string['portofolios'];
 //        dd($portofolio);
 //        return view('_layout.master', compact('data'));
-        return view('_template.portofolioUser', compact('portofolio'));
+        if($portofolio){
+        return view('_template.portofolioUser', compact('portofolio'));}
+        else 
+            {return Redirect::to('/');}
     }
 
     /**

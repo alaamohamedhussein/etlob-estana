@@ -10,15 +10,14 @@
                                             <p class=" text-info">May 05,2014,03:00 pm </p>
                                         </div>-->
                     <div class="container toppad" >
-
-
                         <div class="panel panel-info">
                             <div class="panel-heading">
                                 <h3 class="panel-title">{{$userData['userName']}}</h3>
                             </div>
                             <div class="panel-body">
                                 <div class="row">
-                                    <div class="col-md-3 col-lg-3 " align="center"> <img alt="User Pic" src="http://babyinfoforyou.com/wp-content/uploads/2014/10/avatar-300x300.png" class="img-circle img-responsive"> </div>
+                                    {{$userData['userImageUrl']}}
+                                    <div class="col-md-3 col-lg-3 " align="center"> <img alt="User Pic" src="http://localhost:8084/itiProject/{{$userData['userImageUrl']}}" class="img-circle img-responsive"> </div>
 
                                     <div class=" col-md-9 col-lg-9 "> 
                                         <table class="table table-user-information">
@@ -27,10 +26,19 @@
                                                     <td>المهنة:</td>
                                                     <td>{{$userData['professinalTiltle']}}</td>
                                                 </tr>
+                                                
+                                                @if($userData['ped'])
                                                 <tr>
-                                                    <td>تاريخ الميلاد:</td>
-                                                    <td>01/24/1988</td>
+                                                    <td> معدل المناقصات:</td>
+                                                    <td>{{$userData['ped']}}</td>
                                                 </tr>
+                                                @endif 
+                                                @if($userData['rate'])
+                                                <tr>
+                                                    <td>التقيم:</td>
+                                                    <td>{{$userData['rate']}}</td>
+                                                </tr>
+                                                @endif 
 
                                                 <tr>
                                                 <tr>
@@ -38,7 +46,7 @@
                                                     <td>{{$userData['gender']}}</td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Home Address</td>
+                                                    <td>العنوان :</td>
                                                     <td>{{$userData['governorate']}}</td>
                                                 </tr>
                                                 <tr>
@@ -59,16 +67,17 @@
                                         </table>
 
                                         <a href="/ProjectsHired" class="btn btn-primary">متابعة اعمالى</a>
-                                        <a href="#" class="btn btn-primary">Team Sales Performance</a>
+                                        <!--<a href="#" class="btn btn-primary">Team Sales Performance</a>-->
+                                        <a href="/addPortofolio" class="btn btn-primary"><i class="glyphicon glyphicon-plus"></i></a>
                                     </div>
                                 </div>
-                            </div>
+                            </div> 
                             <div class="panel-footer">
-                                <a data-original-title="Broadcast Message" data-toggle="tooltip" class="btn btn-sm btn-primary msg-btn"><i class="glyphicon glyphicon-envelope"></i></a>
-                                <span class="pull-left">
+                                <!--<a data-original-title="Broadcast Message" data-toggle="tooltip" class="btn btn-sm btn-primary msg-btn"><i class="glyphicon glyphicon-plus"></i></a>-->
+                                <!--<span class="pull-left">-->
                                     <a href="edit.html" data-original-title="Edit this user" data-toggle="tooltip" class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-edit"></i></a>
                                     <a href="{{ url('/logout') }}" data-original-title="Remove this user" data-toggle="tooltip" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i>خروج</a>
-                                </span>
+                                <!--</span>-->
                                 <div class="clear"></div>
                             </div>
 

@@ -38,7 +38,13 @@ class ProjectController extends Controller
     public function create()
     {
         //
+        if (Session::get('user')['userEmail'])
+            {
         return view('projects.add-project');
+    }
+    else{
+      return  Redirect::To('/');
+        }
     }
 
     /**
@@ -69,7 +75,7 @@ class ProjectController extends Controller
 //        dd($contents); 
 //        dd($imgda);
          $client = new Client();
-        $res = $client->request('POST', 'http://localhost:8084/itiProject/rest/project/Project',[
+        $res = $client->request('POST', env('MY_GLOBAL_VAR').'/project/Project',[
         'form_params' => [
             'projectName' => $rules['project_name'],
             'projectDescription' => $rules['project_description'],
@@ -114,7 +120,7 @@ class ProjectController extends Controller
         if (Session::get('user')['userId']!= null){
          $client = new Client();
     
-    $res = $client->request('POST', 'http://localhost:8084/itiProject/rest/project/projectsOfUserHire',[
+    $res = $client->request('POST', env('MY_GLOBAL_VAR').'/project/projectsOfUserHire',[
         'form_params' => [
             'uId' => $userId=Session::get('user')['userId'],
         ]
@@ -138,13 +144,14 @@ public function showProjectsWorked()
         if (Session::get('user')['userId']!= null){
          $client = new Client();
     
-    $res = $client->request('POST', 'http://localhost:8084/itiProject/rest/project/projectsOfUserWork',[
+    $res = $client->request('POST', env('MY_GLOBAL_VAR').'/project/projectsOfUserWork',[
         'form_params' => [
             'uId' => $userId=Session::get('user')['userId'],
         ]
     ]);
     $result = $res->getBody();
     $string = json_decode($result, true);
+//    dd($string);
     if ($string['satatus']==true) {
     $askedProjects=$string['projectsOfUserWork']; 
 //    dd($askedProjects);
@@ -162,7 +169,7 @@ public function showProjectsWoredDetails($id)
         if (Session::get('user')['userId']!= null){
          $client = new Client();
     
-    $res = $client->request('POST', 'http://localhost:8084/itiProject/rest/project/getproject',[
+    $res = $client->request('POST', env('MY_GLOBAL_VAR').'/project/getproject',[
         'form_params' => [
             'pId' => $id,
         ]
@@ -187,7 +194,7 @@ public function showProjectsWoredDetails($id)
         if (Session::get('user')['userId']!= null){
          $client = new Client();
     
-    $res = $client->request('POST', 'http://localhost:8084/itiProject/rest/project/getproject',[
+    $res = $client->request('POST', env('MY_GLOBAL_VAR').'/project/getproject',[
         'form_params' => [
             'pId' => $id,
         ]
@@ -206,15 +213,43 @@ public function showProjectsWoredDetails($id)
    
     }
     
+    
     /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function addcomment()
     {
         //
+        if (Session::get('user')['userId']!= null){
+          $userId=Session::get('user')['userId'];
+           $rules = array(
+            'pid' => Input::get('pid'),
+            'comment' => Input::get('comment'),
+               );
+            $client = new Client();
+            
+    $res = $client->request('POST', env('MY_GLOBAL_VAR').'/ask/addQuestion',[
+        'form_params' => [
+            'pId' => $rules['pid'],
+            'post'=> $rules['comment'],
+            'sId'=> $userId,
+        ]
+    ]);
+    $result = $res->getBody();
+    $string = json_decode($result, true);
+    if ($string['output']=="Question sent succesfuly") {
+//    $comment=$string['project']; 
+//    dd($askedProjects);
+//    return view('projects.askTableDetails');
+        return redirect()->back();
+        }}
+    else
+    {
+        return Redirect::to('/');
+    }
     }
 
     /**
