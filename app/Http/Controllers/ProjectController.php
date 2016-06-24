@@ -38,9 +38,13 @@ class ProjectController extends Controller
     public function create()
     {
         //
+        $res5 = $client->request('GET', env('MY_GLOBAL_VAR').'/authentication/getSkills');
+        $result5 = $res5->getBody();
+        $string5 = json_decode($result5, true);
+        $skills = $string5['skills'];
         if (Session::get('user')['userEmail'])
             {
-        return view('projects.add-project');
+        return view('projects.add-project',  compact('skills'));
     }
     else{
       return  Redirect::To('/');
