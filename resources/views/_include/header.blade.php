@@ -55,15 +55,15 @@
                     </button>
                     <div class="signing-list">
                         @if (!$user['userEmail'])
-      <button class="controller-btn"  data-toggle="modal" href="#login">Log In</button>
-      <button class="controller-btn" data-toggle="modal" href="#signup">Sign Up</button>
+      <button class="controller-btn"  data-toggle="modal" href="/#login">Log In</button>
+      <button class="controller-btn"><a href="{{ url('/signup') }}">Sign Up</a></button>
             @else
            
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                 {{$user['userName'] }} <span class="caret"></span>
                             </a>
 
-            <button class="controller-btn"> <a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>Logout</a></button>
+            <button class="controller-btn"> <a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>خروج</a></button>
                          
                     @endif
                     </div>
@@ -96,12 +96,16 @@
                         <li>
                             <a class="page-scroll" href="/userProfile/{{$user['userId']}}">حسابى </a>
                         </li>
+                         @if($user['typeOfBusiness']=="work"||$user['typeOfBusiness']=="both")
                         <li>
                             <a class="page-scroll" href="/ProjectsHired">اعمالى المطلوبة </a>
                         </li>
+                         @endif
+                        @if($user['typeOfBusiness']=="hire"||$user['typeOfBusiness']=="both")
                         <li>
                             <a class="page-scroll" href="/ProjectsWorked">مشاريعى</a>
                         </li>
+                        @endif
                         @endif
                     </ul>
                 </div>
@@ -111,7 +115,7 @@
 
         </nav>
         
-<!-- Sign up modal -->
+<!-- Sign up modal 
 <div class="modal fade signup-modal" id="test" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -208,8 +212,8 @@
                 </div>
             </div>
         </div>
-        <!-- Sign Up modal end-->
-        <!-- Log In modal -->
+         Sign Up modal end
+         Log In modal 
         <div class="modal fade login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -243,4 +247,4 @@
                 </div>
             </div>
         </div>
-        <!-- Sign Up modal end-->
+         Sign Up modal end-->

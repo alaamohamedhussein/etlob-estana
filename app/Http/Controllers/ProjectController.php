@@ -2,8 +2,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests;
-
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Request;
+//use Illuminate\Http\Request;
 use App\Articale;
 //use Request;
 use Socialite;
@@ -38,13 +38,20 @@ class ProjectController extends Controller
     public function create()
     {
         //
+        $cid = Input::get('cid');
+        $client = new Client();
         $res5 = $client->request('GET', env('MY_GLOBAL_VAR').'/authentication/getSkills');
         $result5 = $res5->getBody();
         $string5 = json_decode($result5, true);
         $skills = $string5['skills'];
+        $res = $client->request('GET', env('MY_GLOBAL_VAR').'/project/getTypes?catId='.$cid);
+        $result = $res->getBody();
+        $string = json_decode($result, true);
+        $types = $string['types'];
+        
         if (Session::get('user')['userEmail'])
             {
-        return view('projects.add-project',  compact('skills'));
+        return view('projects.add-project',  compact('skills','cid','types'));
     }
     else{
       return  Redirect::To('/');
@@ -57,27 +64,55 @@ class ProjectController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    public function typeattribute(Request $request){
+       $input=Input::all();
+//       dd($input['id']);
+        $client = new Client();
+        $res5 = $client->request('GET', env('MY_GLOBAL_VAR').'/project/getAttribute?tId='.$input['id']);
+        $result5 = $res5->getBody();
+        $string5 = json_decode($result5, true);
+        $types = $string5['Attribute'];
+//        dd($types);
+//        dd($result5);
+         return $types;
+    }
     public function store()
     {
         //
-         $rules = array(
-            'project_name' => Input::get('project_name'),
+         $rules = ['project_name' => Input::get('project_name'),
             'project_description' => Input::get('project_description'),
             'budget' => Input::get('budget'),
             'startDate' => Input::get('startDate'),
             'deadLine' => Input::get('deadLine'),
-            'projectsimageses' => Input::get('projectsimageses'),
+            'projectsimageses' => Request::file('projectsimageses'),
             'skills' => Input::get('skills'),
             'tags' => Input::get('tags'),
-            'category' => Input::get('category'),
-        );
+            'category' => Input::get('cid'),
+             'type' => Input::get('type'),
+             'length' => Input::get('length'),
+             'width' => Input::get('width'),
+             'height' => Input::get('height'),
+             'color' => Input::get('color'),
+             'material' => Input::get('material'),
+             ];
         
          //dd(image2wbmp($rules['projectsimageses']));
          $userId=Session::get('user')['userId'];
-        $imgda= file_get_contents ('/home/alaa/Desktop/etlob-estana/public/images/'.$rules['projectsimageses']);
-        $imdata = base64_encode($imgda );
-//        dd($contents); 
-//        dd($imgda);
+         $file =($rules['projectsimageses']);
+        $extension=$file->getClientOriginalExtension();
+        $image_name = $file->getFileName().'.'.$extension ;
+        $destinationPath = public_path().'/images/';
+        $uploadSuccess  = $file->move($destinationPath,$image_name);
+//        dd($uploadSuccess);
+        if($uploadSuccess!= "false"){
+         $imgda= file_get_contents ($destinationPath.$image_name);
+        $imdata = base64_encode($imgda );}
+//        dd($rules['skills']);
+        $skills="";
+        foreach($rules['skills'] as $s) {
+            $skills= $skills.$s.',';
+        }
+//        dd($skills);
          $client = new Client();
         $res = $client->request('POST', env('MY_GLOBAL_VAR').'/project/Project',[
         'form_params' => [
@@ -86,25 +121,28 @@ class ProjectController extends Controller
             'budget' => $rules['budget'],
             'startDate' => $rules['startDate'],
             'projectDeadLine' =>$rules['deadLine'],
-            'name' => $rules['projectsimageses'],
+            'name' => $image_name,
             'content' => $imdata,
-            'skilltables' => '1,2,3',
-            'tagsofprojectses' => "java,php,mmm",
+            'skilltables' =>$skills,
+            'tagsofprojectses' => $rules['tags'],
             'userId' => $userId,
-            'categoryId' => "1",
-            
-           
-        ]
+            'categoryId' => $rules['category'],
+            'tId'=> $rules['type'], 
+            'long'=> $rules['length'],
+            'width'=> $rules['width'],
+            'hight'=> $rules['height'],
+            'color'=> $rules['color'],
+            'material'=> $rules['material'],
+            ]
     ]);
-
         $result = $res->getBody();
         $string = json_decode($result,true);
        
 //        dd($result);
-         if ($string['output']=="tureInsert") {
+         if ($string['output']=="تم ادخال المشروع بنجاح") {
            
 //            return Redirect::to('userProfile/'.$userId);
-            return view('welcome',compact('rules'));      
+            return Redirect::to('/#services');     
         } else {
 
             // validation not successful, send back to form 

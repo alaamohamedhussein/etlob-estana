@@ -121,7 +121,12 @@ public function portofolioProfile($id) {
     return view('_template.userProfile',compact('userData')); 
 }
     public function create() {
-        return view('_template.signup');
+        $client = new Client();
+         $res5 = $client->request('GET', env('MY_GLOBAL_VAR').'/authentication/getSkills');
+        $result5 = $res5->getBody();
+        $string5 = json_decode($result5, true);
+        $skills = $string5['skills'];
+        return view('_template.signup',  compact('skills'));
     }
 
     public function store() {
@@ -152,13 +157,22 @@ public function portofolioProfile($id) {
             'summery' => Input::get('summery'),
             'mobile' => Input::get('mobile'),
             'phone' => Input::get('phone'),
-            'userimage' => Input::get('userimage'),
+            'userimage' => Input::file('userimage'),
             'skill' => Input::get('skill'),
             'bussinessType' => Input::get('bussinessType'),
         );
 //        dd($rules);
-         $imgda= file_get_contents ('/home/alaa/Desktop/etlob-estana/public/images/'.$rules['userimage']);
-        $imdata = base64_encode($imgda );
+        $file =($rules['userimage']);
+//        $file=Request::input('portofolioImage');
+//        dd($rules['portofolioImage']);
+        $extension=$file->getClientOriginalExtension();
+        $image_name = $file->getFileName().'.'.$extension ;
+        $destinationPath = public_path().'/images/';
+        $uploadSuccess  = $file->move($destinationPath,$image_name);
+//        dd($uploadSuccess);
+        if($uploadSuccess!= "false"){
+         $imgda= file_get_contents ($destinationPath.$image_name);
+        $imdata = base64_encode($imgda );}
 //        dd($imdata);
 //        $validator = validator::make($rules,$require);
 //        if ($validator->fails())
@@ -179,7 +193,7 @@ public function portofolioProfile($id) {
             'mobiles' => $rules['mobile'],
             'phones' => $rules['phone'],
             'skill' => $rules['skill'],
-            'name' => $rules['userimage'],
+            'name' => $image_name ,
             'content' => $imdata,
             'bussinessType' => $rules['bussinessType'],
         ]
@@ -235,6 +249,16 @@ public function portofolioProfile($id) {
         $categories = $string2['categories'];
         return view('_template.addPortofolio',compact('categories'));
     }
+     public function showPortofolio($id){
+          $client = new Client();
+    
+    $res = $client->request('GET', env('MY_GLOBAL_VAR').'/user/getUser?uId='.$id);
+    $result = $res->getBody();
+    $string = json_decode($result, true);
+    $userData=$string['user']; 
+//    dd($userData);
+         return view('_template.showPortofolio',  compact('userData'));
+     }
     
     public function savePortofolio(){
         $rules = ['category' => Input::get('category'),
@@ -251,8 +275,6 @@ public function portofolioProfile($id) {
         $extension=$file->getClientOriginalExtension();
         $image_name = $file->getFileName().'.'.$extension ;
         $destinationPath = public_path().'/images/';
-//        dd($image_name);
-////        $filename        = Sentry::getUser()->username. '.jpg';
         $uploadSuccess  = $file->move($destinationPath,$image_name);
 //        dd($uploadSuccess);
         if($uploadSuccess!= "false"){

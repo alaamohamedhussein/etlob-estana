@@ -61,22 +61,22 @@
 
                 <div class="row">
 
-                    <form id="eventForm" method="post" action="{{ url('/addProject') }}" class="form-horizontal">
+                    <form enctype="multipart/form-data" id="eventForm" method="post" action="{{ url('/saveProject') }}" class="form-horizontal">
                         {!! csrf_field() !!}
+                        <input type="hidden" name="cid" value="{{$cid}}">
                         <div class="form-group">
                             <label class="col-xs-3 control-label">Project Name</label>
                             <div class="col-xs-5">
                                 <input type="text" class="form-control" name="project_name">
                             </div>
                         </div>
-
                         <div class="form-group">
-                            <label class="col-xs-3 control-label">Project Description</label>
+                            <label class="col-xs-3 control-label">Project Image</label>
                             <div class="col-xs-5">
-                                <textarea class="form-control" name="project_description" rows="3"></textarea>
+                                <input type="file" class="form-control-file" name="projectsimageses">
+                
                             </div>
                         </div>
-
                         <div class="form-group">
                             <label class="col-xs-3 control-label">Budget</label>
                             <div class="col-xs-5">
@@ -103,28 +103,61 @@
                                 </div>
                             </div>
                         </div>
-
-                        <div class="form-group">
-                            <label class="col-xs-3 control-label">Project Image</label>
-                            <div class="col-xs-5">
-                                <input type="file" class="form-control-file" name="projectsimageses">
-                
-                            </div>
-                        </div>
-
                         <div class="form-group">
                             <label class="col-xs-3 control-label">Skills</label>
                             <div class="col-xs-5">
-                                <select multiple class="form-control" name="skills">
-                                    <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
+                                <select multiple="multiple" class="form-control" name="skills[]">
+                                    @foreach($skills as $skill)
+                                    <option value="{{$skill['skillId']}}">{{$skill['skillName']}}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
-
+                         <div class="form-group">
+                            <label class="col-xs-3 control-label">النوع </label>
+                            <div class="col-xs-5">
+                                <select class="form-control" name="type" id="type">
+                                    @foreach($types as $type)
+                                    <option value="{{$type['typeId']}}">{{$type['type']}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-3 control-label">الطول</label>
+                            <div class="col-xs-5">
+                                <select class="form-control" name="length" id="length">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-3 control-label">العرض </label>
+                            <div class="col-xs-5">
+                                <select class="form-control" name="width" id="width">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-3 control-label">الارتفاع</label>
+                            <div class="col-xs-5">
+                                <select class="form-control" name="height" id="height">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-3 control-label">اللون</label>
+                            <div class="col-xs-5">
+                                <select class="form-control" name="color" id="color">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-3 control-label">الخامة</label>
+                            <div class="col-xs-5">
+                                <select class="form-control" name="material" id="material">
+                                </select>
+                            </div>
+                        </div>
                         <div class="form-group">
                             <label class="col-xs-3 control-label">Tags</label>
                             <div class="col-xs-5">
@@ -137,17 +170,10 @@
                                 </select>
                             </div>
                         </div>
-                        
                         <div class="form-group">
-                            <label class="col-xs-3 control-label">Category</label>
+                            <label class="col-xs-3 control-label">Project Description</label>
                             <div class="col-xs-5">
-                                <select class="form-control" name="category">
-                                    <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
-                                </select>
+                                <textarea class="form-control" name="project_description" rows="3"></textarea>
                             </div>
                         </div>
 
@@ -157,7 +183,48 @@
                             </div>
                         </div>
                     </form>
-
+<script type="text/javascript">
+                        $(document).ready(function($){
+                          var mem=$('#type').val();
+                          $('#type').blur(function(){
+                              console.log($('#type').val());
+                            console.log('here');
+                            $.ajax({
+                              url:"{{url('/typeattribute')}}?id="+$('#type').val(),
+                              type: "GET",
+                               dataType: 'json'
+                               
+                            }
+                                    ).success(function(data){
+                                         var material_id = $('#material');
+                                         var width_id = $('#width');
+                                console.log("res"+(data));
+                           console.log( JSON.stringify(data));
+                           attr=JSON.stringify(data);
+                           var material=[];
+                           var width=[]; var color=[]; var height=[]; var length=[];
+                           for (var i=0; i<data.length; i++)
+//                                for (var name in attr) 
+                                {
+                                    console.log(data[i]["attrId"]);
+                                    material[i]=data[i]["material"];
+                                    width[i]=data[i]["width"];
+                                    color[i]=data[i]["color"];
+                                    height[i]=data[i]["hight"];
+                                    length[i]=data[i]["longg"];
+                                    material_id.append("<option value="+data[i]["attrId"]+">" + material[i] + "</option>");
+                                     width_id.append("<option value="+data[i]["attrId"]+">" + width[i] + "</option>");
+                                     $('#color').append("<option value="+data[i]["attrId"]+">" + color[i] + "</option>");
+                                     $('#height').append("<option value="+data[i]["attrId"]+">" + height[i] + "</option>");
+                                     $('#length').append("<option value="+data[i]["attrId"]+">" + length[i] + "</option>");
+                                }
+                                console.log("material: "+material);
+                           }) .error(function(data){
+                       console.log("erroe");
+                   });
+                          });
+                        });
+                    </script>
                     <script>
                         $(document).ready(function () {
                             $('#datePicker')
@@ -209,7 +276,7 @@
                         });
                     </script>
 
-
+                    
 
                 </div>
             </div>

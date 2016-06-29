@@ -65,10 +65,14 @@
 
                                             </tbody>
                                         </table>
-
+                                    @if($user['typeOfBusiness']=="work"||$user['typeOfBusiness']=="both")
                                         <a href="/ProjectsHired" class="btn btn-primary">متابعة اعمالى</a>
                                         <!--<a href="#" class="btn btn-primary">Team Sales Performance</a>-->
+                                        <a href="{{url('/showPortofolio/'.$userData['userId'])}}" class="btn btn-primary">نماذج اعمال</a>
                                         <a href="/addPortofolio" class="btn btn-primary"><i class="glyphicon glyphicon-plus"></i></a>
+                                    @else
+                                    <a href="{{url('/showPortofolio/'.$userData['userId'])}}" class="btn btn-primary">نماذج اعمال</a>
+                                    @endif
                                     </div>
                                 </div>
                             </div> 

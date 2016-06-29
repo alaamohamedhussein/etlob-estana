@@ -13,5 +13,5 @@
 
 
 @include('_include.footer')
-@include('_template.signup')
+
 @include('_template.login')

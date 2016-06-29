@@ -28,7 +28,7 @@ Route::get('/ProjectsHightDetails/{id}','HomeController@showHightDetails');
 
 
 Route::post('/profile', 'UsersCntroller@doLogin');
-Route::get('/template.signup', 'UsersCntroller@create');
+Route::get('/signup', 'UsersCntroller@create');
 Route::post('/create', 'UsersCntroller@store');
 Route::get('/logout', 'UsersCntroller@logout');
 //Route::get('/reset','UsersCntroller@reset');
@@ -40,9 +40,11 @@ Route::get('/userProfile/{id}', 'UsersCntroller@profile');
 Route::get('/portofolioProfile/{id}', 'UsersCntroller@portofolioProfile');
 Route::get('/addPortofolio','UsersCntroller@addPortofolio');
 Route::post('/savePortofolio','UsersCntroller@savePortofolio');
+Route::get('/showPortofolio/{id}','UsersCntroller@showPortofolio');
 
-Route::get('/addProject', 'ProjectController@create');
-Route::post('/addProject', 'ProjectController@store');
+Route::post('/addProject', 'ProjectController@create');
+Route::post('/saveProject', 'ProjectController@store');
+Route::get('/typeattribute', 'ProjectController@typeattribute');
 
 Route::get('/ProjectsHired', 'ProjectController@showProjectsHired');
 Route::get('/ProjectsWorked', 'ProjectController@showProjectsWorked');

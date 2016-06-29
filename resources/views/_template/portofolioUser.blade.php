@@ -3,8 +3,8 @@
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12 text-center">
-                        <h2 class="section-heading">Portofolios</h2>
-                        <h3 class="section-subheading text-muted">Lorem ipsum dolor sit amet consectetur.</h3>
+                        <h2 class="section-heading">نماذج اعمال</h2>
+                        <h3 class="section-subheading text-muted">نماذج اعمال خاصة بالفئة </h3>
                     </div>
                 </div>
                 <div class="row">

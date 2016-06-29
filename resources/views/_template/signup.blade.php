@@ -1,9 +1,13 @@
+ @include('_include.header')
 <!-- Sign up modal -->
-<div class="modal fade signup-modal" id="signup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div id="signup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
             <div class="modal-dialog">
+                <br><br><br>
                 <div class="modal-content">
-                   <form name="sentMessage" id="contactForm" method="Post" action="{{ url('/create') }}" novalidate>
+                    
+                   <form enctype="multipart/form-data" name="sentMessage" id="contactForm" method="Post" action="{{ url('/create') }}" novalidate>
                     {!! csrf_field() !!}
+                    
                     <h3>Register Now</h3>
                   
                      <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
