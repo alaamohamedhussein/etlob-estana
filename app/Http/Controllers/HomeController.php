@@ -110,7 +110,7 @@ class HomeController extends Controller {
         }}
     else
     {
-        return Redirect::to('/#wantedprojects');
+        return Redirect::to('/login');
     }
     
    
@@ -134,7 +134,7 @@ class HomeController extends Controller {
         }}
     else
     {
-        return Redirect::to('/#wantedprojects');
+        return Redirect::to('/login');
     }
     }
 

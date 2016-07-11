@@ -40,7 +40,7 @@ class UsersCntroller extends Controller {
 
     public function showLogin() {
        
-        return view('log-in');
+        return view('_template.login');
     }
 
     public function doLogin() {
@@ -59,7 +59,7 @@ class UsersCntroller extends Controller {
         );
         $validator = validator::make($userdata,$rules);
         if ($validator->fails())
-            { return  Redirect::to('/new')->withInput()->withErrors($validator->messages());}
+            { return  Redirect::to('/login')->withInput()->withErrors($validator->messages());}
         $client = new Client();
         $res = $client->request('POST', env('MY_GLOBAL_VAR').'/authentication/login',[
         'form_params' => [
@@ -81,7 +81,7 @@ class UsersCntroller extends Controller {
            }else {
 
             // validation not successful, send back to form 
-            return Redirect::to('/');
+            return Redirect::to('/login');
         }
 //        if (Auth::attempt($userdata, true)) {
 //

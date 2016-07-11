@@ -54,7 +54,7 @@ class ProjectController extends Controller
         return view('projects.add-project',  compact('skills','cid','types'));
     }
     else{
-      return  Redirect::To('/');
+      return  Redirect::To('/login');
         }
     }
 
@@ -99,6 +99,7 @@ class ProjectController extends Controller
          //dd(image2wbmp($rules['projectsimageses']));
          $userId=Session::get('user')['userId'];
          $file =($rules['projectsimageses']);
+         if(file_exists($file)){
         $extension=$file->getClientOriginalExtension();
         $image_name = $file->getFileName().'.'.$extension ;
         $destinationPath = public_path().'/images/';
@@ -106,7 +107,11 @@ class ProjectController extends Controller
 //        dd($uploadSuccess);
         if($uploadSuccess!= "false"){
          $imgda= file_get_contents ($destinationPath.$image_name);
-        $imdata = base64_encode($imgda );}
+         $imdata = base64_encode($imgda );}}
+         else{
+             $image_name=" "; 
+             $imdata=" ";
+         }
 //        dd($rules['skills']);
         $skills="";
         foreach($rules['skills'] as $s) {
@@ -290,7 +295,7 @@ public function showProjectsWoredDetails($id)
         }}
     else
     {
-        return Redirect::to('/');
+        return Redirect::to('/login');
     }
     }
 

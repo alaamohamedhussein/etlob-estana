@@ -1,11 +1,12 @@
-
-<!-- Log In modal -->
-        <section id="login" class="modal fade login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+@include('_include.header')
+<!-- Sign up modal -->
+<header>
+    <div class="container">
+        <div class="intro-text">
             <div class="modal-dialog">
-                <div class="modal-content">
-                    <form name="sentMessage" id="contactForm" method="POST" action="{{ url('/profile') }}" novalidate>
+                    <form name="sentMessage" id="contactForm" method="POST" action="{{ url('/login') }}" novalidate>
                     {!! csrf_field() !!}
-                    <h3>Login Now</h3>
+                    <h3>تسجيل الدخول </h3>
                      <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
                                 <input type="email" class="form-control" name="email" value="{{ old('email') }}" placeholder="الايميل*" id="email" required data-validation-required-message="Please enter your email address.">
                                 @if ($errors->has('email'))
@@ -26,12 +27,19 @@
                             </div>
                            
                             
-                            <div class="col-md-3"><a href="{{ url('/redirect') }}" class="remove_underlines">login with facebook</a></div>
-                            
-                            <button  class="form-control" type="submit" class="send-btn">Log In</button>
+<!--                            <div class="col-md-3"><a href="{{ url('/redirect') }}" class="remove_underlines">login with facebook</a></div>-->
+                             <div class="form-group">
+                        <div class="col-xs-5 col-xs-offset-3">
+                            <button type="submit" class="btn btn-default">تسجيل </button>
+                        </div>
+                    </div>
                     </form>
-                </div>
+                
             </div>
+        </div>
+    </div>
+</header>
+@include('_include.footer')
             <script>
 //                function loginFun(){
 //                    

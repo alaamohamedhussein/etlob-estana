@@ -52,40 +52,36 @@
             }
         </style>
 
- 
-    <body>
-
-        <section>
-            <!-- Page Content -->
-            <div class="container">
-
-                <div class="row">
+<header>
+    <div class="container">
+        <div class="intro-text">
+             <div class="row">
 
                     <form enctype="multipart/form-data" id="eventForm" method="post" action="{{ url('/saveProject') }}" class="form-horizontal">
                         {!! csrf_field() !!}
                         <input type="hidden" name="cid" value="{{$cid}}">
                         <div class="form-group">
-                            <label class="col-xs-3 control-label">Project Name</label>
+                            <label class="col-xs-3 control-label">اسم المشروع</label>
                             <div class="col-xs-5">
                                 <input type="text" class="form-control" name="project_name">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-xs-3 control-label">Project Image</label>
+                            <label class="col-xs-3 control-label">صورة المشروع</label>
                             <div class="col-xs-5">
                                 <input type="file" class="form-control-file" name="projectsimageses">
                 
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-xs-3 control-label">Budget</label>
+                            <label class="col-xs-3 control-label">المبلغ المقترح</label>
                             <div class="col-xs-5">
                                 <input type="text" class="form-control" name="budget" />
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="col-xs-3 control-label">Start Date</label>
+                            <label class="col-xs-3 control-label">تاريخ البداية</label>
                             <div class="col-xs-5 date">
                                 <div class="input-group input-append date" id="datePicker">
                                     <input type="text" class="form-control" name="startDate" />
@@ -95,7 +91,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="col-xs-3 control-label">DeadLine</label>
+                            <label class="col-xs-3 control-label">تاريخ الانتهاء</label>
                             <div class="col-xs-5 date">
                                 <div class="input-group input-append date" id="datePicker1">
                                     <input type="text" class="form-control" name="deadLine" />
@@ -104,13 +100,23 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-xs-3 control-label">Skills</label>
-                            <div class="col-xs-5">
+                            <label class="col-xs-3 control-label">المهارات</label>
+<!--                            <div class="col-xs-5">
                                 <select multiple="multiple" class="form-control" name="skills[]">
                                     @foreach($skills as $skill)
                                     <option value="{{$skill['skillId']}}">{{$skill['skillName']}}</option>
                                     @endforeach
                                 </select>
+                            </div>-->
+                            <div class="col-xs-5">
+                                @for($i=0;$i< sizeOf($skills);$i++)
+                                    @if($i%2==0)
+                                         <br>
+                                <input type="checkbox" name="skills[]" value="{{$skills[$i]['skillId']}}">{{$skills[$i]['skillName']}}
+                                    @else
+                                <input type="checkbox" name="skills[]" value="{{$skills[$i]['skillId']}}">{{$skills[$i]['skillName']}}
+                                    @endif
+                                @endfor
                             </div>
                         </div>
                          <div class="form-group">
@@ -159,8 +165,8 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-xs-3 control-label">Tags</label>
-                            <div class="col-xs-5">
+                            <label class="col-xs-3 control-label">اختصارات</label>
+<!--                            <div class="col-xs-5">
                                 <select class="form-control" name="tags">
                                     <option>1</option>
                                     <option>2</option>
@@ -168,10 +174,13 @@
                                     <option>4</option>
                                     <option>5</option>
                                 </select>
+                            </div>-->
+                            <div class="col-xs-5">
+                                <input type="text" class="form-control" name="tags">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-xs-3 control-label">Project Description</label>
+                            <label class="col-xs-3 control-label">وصف للمشروع</label>
                             <div class="col-xs-5">
                                 <textarea class="form-control" name="project_description" rows="3"></textarea>
                             </div>
@@ -280,8 +289,11 @@
 
                 </div>
             </div>
+            </div>
             <!-- /.container -->
-        </section>
+             
+</header>
+
 
     </body>
 </html>

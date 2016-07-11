@@ -55,8 +55,8 @@
                     </button>
                     <div class="signing-list">
                         @if (!$user['userEmail'])
-      <button class="controller-btn"  data-toggle="modal" href="/#login">Log In</button>
-      <button class="controller-btn"><a href="{{ url('/signup') }}">Sign Up</a></button>
+                        <button class="controller-btn"><a href="{{ url('/login') }}">تسجيل دخول</a></button>
+      <button class="controller-btn"><a href="{{ url('/signup') }}">تسجيل مستخدم جديد</a></button>
             @else
            
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">

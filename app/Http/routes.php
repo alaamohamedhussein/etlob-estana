@@ -27,9 +27,11 @@ Route::get('/ProjectsHightDetails/{id}','HomeController@showHightDetails');
 //Route::get('/', 'HomeController');
 
 
-Route::post('/profile', 'UsersCntroller@doLogin');
+//Route::post('/profile', 'UsersCntroller@doLogin');
 Route::get('/signup', 'UsersCntroller@create');
 Route::post('/create', 'UsersCntroller@store');
+Route::get('/login', 'UsersCntroller@showLogin');
+Route::post('/login', 'UsersCntroller@doLogin');
 Route::get('/logout', 'UsersCntroller@logout');
 //Route::get('/reset','UsersCntroller@reset');
 //Route::post('/reset','UsersCntroller@save');

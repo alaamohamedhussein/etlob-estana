@@ -108,6 +108,10 @@ font-size: 14px;
 header {
     background-image: url(../img/crafts.jpg);
 }
+header .intro-text {
+    padding-top: 200px;
+    padding-bottom: 200px;
+}
 .intro-text{
 color: white;
 }
