@@ -195,7 +195,7 @@
 <script type="text/javascript">
                         $(document).ready(function($){
                           var mem=$('#type').val();
-                          $('#type').blur(function(){
+                          $('#type').change(function(){
                               console.log($('#type').val());
                             console.log('here');
                             $.ajax({

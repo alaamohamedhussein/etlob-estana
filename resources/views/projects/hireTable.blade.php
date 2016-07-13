@@ -25,7 +25,7 @@
                       </div>
                       </div>
                       
-                            <img class="img-circle img-responsive" src="template/img/about/1.jpg" alt="">
+                            <img class="img-circle img-responsive" src="{{"http://localhost:8084/itiProject".$up['projectsforusers']['projectsimageses'][0]['imageUrl']}}" alt="">
                
                      </a>
                         </div>

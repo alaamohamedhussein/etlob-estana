@@ -38,7 +38,7 @@
 
                                         @foreach($askedProjects['projectsimageses'] as $image)
                                         
-                                        <img class="img-responsive" src="http://localhost:8084/itiProject/{{$image['imageUrl']}}" alt="">
+                                        <img class="img-responsive" src="http://localhost:8084/itiProject{{$image['imageUrl']}}" alt="">
 
                                     <hr>
                                         <div class="col-sm-3 col-xs-6">

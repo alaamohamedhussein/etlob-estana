@@ -6,6 +6,12 @@
                 <div class="row">
 
                     <ul class="list-group">
+                        <?php 
+                        if(empty($allOffer))
+                        {
+                       echo " <h1>لا يوجد عروض لهذا المشروع</h1>";
+                        }
+                        ?>
                          @foreach($allOffer as $wp)
                         <li class="list-group-item">
                             <div class="col-lg-4"><img src="http://placehold.it/900x300" class="img-rounded" alt="Cinque Terre" width="200" height="150"><br></div>

@@ -16,12 +16,19 @@
                     @foreach($askedProjects as $up)
                     <?php if($i==1)$i=0; else $i++; ?>
                     <li class="{{$class[$i]}}">
-                        <div class="timeline-image">
-                            <a href="/ProjectsWorkedDetails/{{$up['projectId']}}">
-                
-                            <img class="img-circle img-responsive" src="template/img/about/1.jpg" alt="">
+                         <div class="timeline-image">
+                            <a href="/ProjectsWorkedDetails/{{$up['projectId']}}" class="portfolio-link" data-toggle="modal">
+                     <div class="portfolio-hover">
+                     <div class="portfolio-hover-content">
+                      <i class="fa fa-plus fa-3x"></i>
+                      </div>
+                      </div>
+                      
+                            <img class="img-circle img-responsive" src="{{"http://localhost:8084/itiProject".$up['projectsimageses'][0]['imageUrl']}}" alt="">
+               
                      </a>
                         </div>
+                        
                         <div class="timeline-panel">
                             <div class="timeline-heading">
                                 <br><br>

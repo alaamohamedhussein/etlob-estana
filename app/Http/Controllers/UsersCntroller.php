@@ -232,7 +232,7 @@ public function portofolioProfile($id) {
            }else {
 
             // validation not successful, send back to form 
-            return Redirect::to('/');
+            return Redirect::to('/login');
         }}else {
 
             // validation not successful, send back to form 

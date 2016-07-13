@@ -16,7 +16,7 @@
                             </div>
                             <div class="panel-body">
                                 <div class="row">
-                                    {{$userData['userImageUrl']}}
+                                   
                                     <div class="col-md-3 col-lg-3 " align="center"> <img alt="User Pic" src="http://localhost:8084/itiProject/{{$userData['userImageUrl']}}" class="img-circle img-responsive"> </div>
 
                                     <div class=" col-md-9 col-lg-9 "> 
@@ -65,8 +65,11 @@
 
                                             </tbody>
                                         </table>
-                                    @if($user['typeOfBusiness']=="work"||$user['typeOfBusiness']=="both")
+                                    
+                                    @if($user['userId']== $userData['userId'])
+                                        @if($user['typeOfBusiness']=="work"||$user['typeOfBusiness']=="both")
                                         <a href="/ProjectsHired" class="btn btn-primary">متابعة اعمالى</a>
+                                        @endif
                                         <!--<a href="#" class="btn btn-primary">Team Sales Performance</a>-->
                                         <a href="{{url('/showPortofolio/'.$userData['userId'])}}" class="btn btn-primary">نماذج اعمال</a>
                                         <a href="/addPortofolio" class="btn btn-primary"><i class="glyphicon glyphicon-plus"></i></a>

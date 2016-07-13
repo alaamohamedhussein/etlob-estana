@@ -13,5 +13,3 @@
 
 
 @include('_include.footer')
-
-@include('_template.login')

@@ -22,7 +22,11 @@
                     </div>  
                     @endforeach
                 </div>
-                <h4><a href="/portofolioProfile/{{$userData['portofolioforusers']['portofolioId']}}"> عن المورد</a> </h4>
+                <?php if( !empty($userData['portofolioforusers'])){ ?>
+                <h4><a href="/portofolioProfile/{{$userData['portofolioforusers'][0]['portofolioId']}}"> عن المورد</a> </h4>
+                <?php } else {
+                       echo " <h1>لا يوجد نماذج اعمال لهذا المستخدم </h1>";
+                        }?>
             </div>
         </section>
 @include('_include.footer')

@@ -79,8 +79,8 @@ class OfferController extends Controller
        
 //        dd($string);
          if ($string['output']=="tureInsert") {
-           return redirect()->back();
-//            return Redirect::to('/showOffer');
+//           return redirect()->back();
+            return Redirect::to('/#wantedprojects');
 //            return view('projects.allOffer', compact('string'));   
         } else {
 
